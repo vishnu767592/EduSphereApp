@@ -17,7 +17,7 @@ import java.io.IOException
 
 class TopicDetailActivity2 : AppCompatActivity() {
 
-    private val apiKey = "YOUR_GROQ_KEY_HERE"
+    private val apiKey = "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"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

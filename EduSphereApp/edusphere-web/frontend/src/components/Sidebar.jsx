@@ -1,118 +1,168 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  LayoutDashboard, 
-  BookOpen, 
-  MessageSquare, 
-  Sparkles, 
-  Bookmark, 
-  Calendar, 
-  BarChart3, 
-  ShieldCheck, 
-  UserSquare2 
+import {
+  LayoutDashboard, BookOpen, MessageSquare, StickyNote,
+  BarChart3, Bookmark, Trophy, Calendar, User, Settings,
+  ShieldCheck, LogOut, X
 } from 'lucide-react';
 
-const Sidebar = () => {
-  const { user } = useAuth();
+const navItems = [
+  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+  { label: 'Learning Portal', icon: BookOpen, path: '/learning' },
+  { label: 'AI Tutor', icon: MessageSquare, path: '/ai-tutor' },
+  { label: 'My Notes', icon: StickyNote, path: '/notes' },
+  { label: 'Progress', icon: BarChart3, path: '/progress' },
+  { label: 'Bookmarks', icon: Bookmark, path: '/bookmarks' },
+  { label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
+  { label: 'Study Planner', icon: Calendar, path: '/planner' },
+];
 
-  const navigationItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={18} /> },
-    { name: 'Learning Portal', path: '/learning', icon: <BookOpen size={18} /> },
-    { name: 'AI Tutor Chat', path: '/ai-tutor', icon: <MessageSquare size={18} /> },
-    { name: 'Hologram Viewer', path: '/hologram', icon: <Sparkles size={18} /> },
-    { name: 'Bookmarks', path: '/bookmarks', icon: <Bookmark size={18} /> },
-    { name: 'AI Study Planner', path: '/planner', icon: <Calendar size={18} /> },
-    { name: 'Progress Dashboard', path: '/progress', icon: <BarChart3 size={18} /> },
-    { name: 'User Profile', path: '/profile', icon: <UserSquare2 size={18} /> },
-  ];
+const bottomItems = [
+  { label: 'Profile', icon: User, path: '/profile' },
+  { label: 'Settings', icon: Settings, path: '/settings' },
+];
 
-  // If admin, append admin controls
-  if (user && user.role === 'admin') {
-    navigationItems.push({
-      name: 'Admin Panel',
-      path: '/admin',
-      icon: <ShieldCheck size={18} style={{ color: '#00F5D4' }} />
-    });
-  }
+const Sidebar = ({ isOpen, onClose }) => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const activeLinkStyle = {
+    background: 'linear-gradient(90deg, rgba(124,106,247,0.18) 0%, rgba(124,106,247,0.04) 100%)',
+    borderLeft: '3px solid var(--primary)',
+    color: 'var(--primary)',
+  };
 
   return (
-    <aside style={{
-      width: '240px',
-      background: 'var(--bg-sidebar)',
-      borderRight: 'var(--border-card)',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '24px 16px',
-      gap: '8px',
-      minHeight: 'calc(100vh - 70px)',
-      position: 'sticky',
-      top: '70px',
-      flexShrink: 0
-    }} className="app-sidebar">
-      <div style={{
-        fontSize: '11px',
-        fontWeight: 600,
-        color: 'var(--text-muted)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.05em',
-        paddingLeft: '12px',
-        marginBottom: '12px'
+    <>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div
+          onClick={onClose}
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
+            zIndex: 99, display: 'none'
+          }}
+          className="sidebar-overlay"
+        />
+      )}
+
+      <aside style={{
+        position: 'fixed', top: 0, left: 0, height: '100vh',
+        width: '260px', background: 'var(--bg-sidebar)',
+        borderRight: 'var(--border-card)', display: 'flex',
+        flexDirection: 'column', zIndex: 100,
+        transition: 'transform 0.3s ease',
+        overflowY: 'auto'
       }}>
-        NAVIGATION
-      </div>
+        {/* Logo */}
+        <div style={{ padding: '24px 20px', borderBottom: 'var(--border-card)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '28px' }}>🎓</span>
+            <div>
+              <div style={{ fontSize: '18px', fontWeight: 800, fontFamily: 'var(--font-title)', letterSpacing: '-0.03em' }}>
+                EduSphere
+              </div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>AI Learning Platform</div>
+            </div>
+          </div>
+        </div>
 
-      {navigationItems.map(item => (
-        <NavLink
-          key={item.name}
-          to={item.path}
-          style={({ isActive }) => ({
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            padding: '12px 16px',
-            borderRadius: '10px',
-            color: isActive ? 'var(--text-main)' : 'var(--text-muted)',
-            background: isActive ? 'rgba(124, 106, 247, 0.12)' : 'transparent',
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: 500,
-            borderLeft: isActive ? '3px solid var(--primary)' : '3px solid transparent',
-            transition: 'background var(--transition-fast), color var(--transition-fast)'
-          })}
-          className="sidebar-link"
-        >
-          {item.icon}
-          <span>{item.name}</span>
-        </NavLink>
-      ))}
+        {/* User mini card */}
+        <div style={{ padding: '16px 20px', borderBottom: 'var(--border-card)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{
+              width: '36px', height: '36px', borderRadius: '50%',
+              background: 'var(--primary-gradient)', display: 'flex',
+              alignItems: 'center', justifyContent: 'center',
+              fontWeight: 700, fontSize: '14px', color: '#fff'
+            }}>
+              {user?.name?.[0]?.toUpperCase() || 'U'}
+            </div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: 600 }}>{user?.name}</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{user?.role === 'admin' ? '🛡 Admin' : '📚 Learner'}</div>
+            </div>
+          </div>
+        </div>
 
-      <style>{`
-        .sidebar-link:hover {
-          background: rgba(124, 106, 247, 0.05);
-          color: var(--text-main);
-        }
-        
-        @media (max-width: 768px) {
-          .app-sidebar {
-            width: 70px;
-            padding: 20px 8px;
-            align-items: center;
-          }
-          .app-sidebar span {
-            display: none;
-          }
-          .app-sidebar div {
-            display: none !important;
-          }
-          .sidebar-link {
-            padding: 12px;
-            justify-content: center;
-            border-left: none !important;
-          }
-        }
-      `}</style>
-    </aside>
+        {/* Navigation */}
+        <nav style={{ flex: 1, padding: '12px 0' }}>
+          {navItems.map(({ label, icon: Icon, path }) => (
+            <NavLink
+              key={path}
+              to={path}
+              style={({ isActive }) => ({
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '11px 20px', margin: '2px 8px', borderRadius: '10px',
+                textDecoration: 'none', fontSize: '14px', fontWeight: 500,
+                color: 'var(--text-muted)',
+                transition: 'all 0.2s ease',
+                ...(isActive ? activeLinkStyle : {}),
+                borderLeft: isActive ? '3px solid var(--primary)' : '3px solid transparent',
+              })}
+            >
+              <Icon size={18} />
+              {label}
+            </NavLink>
+          ))}
+
+          {/* Admin link */}
+          {user?.role === 'admin' && (
+            <NavLink
+              to="/admin"
+              style={({ isActive }) => ({
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '11px 20px', margin: '2px 8px', borderRadius: '10px',
+                textDecoration: 'none', fontSize: '14px', fontWeight: 500,
+                color: isActive ? 'var(--secondary)' : 'var(--text-muted)',
+                borderLeft: isActive ? '3px solid var(--secondary)' : '3px solid transparent',
+              })}
+            >
+              <ShieldCheck size={18} />
+              Admin Panel
+            </NavLink>
+          )}
+        </nav>
+
+        {/* Bottom nav */}
+        <div style={{ borderTop: 'var(--border-card)', padding: '8px 0 16px' }}>
+          {bottomItems.map(({ label, icon: Icon, path }) => (
+            <NavLink
+              key={path}
+              to={path}
+              style={({ isActive }) => ({
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '10px 20px', margin: '2px 8px', borderRadius: '10px',
+                textDecoration: 'none', fontSize: '14px', fontWeight: 500,
+                color: isActive ? 'var(--primary)' : 'var(--text-muted)',
+              })}
+            >
+              <Icon size={18} />
+              {label}
+            </NavLink>
+          ))}
+          <button
+            onClick={handleLogout}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              padding: '10px 20px', margin: '2px 8px', borderRadius: '10px',
+              width: 'calc(100% - 16px)', border: 'none', background: 'transparent',
+              cursor: 'pointer', fontSize: '14px', fontWeight: 500,
+              color: '#FF5A5A', transition: 'background 0.2s'
+            }}
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 

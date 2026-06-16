@@ -23,9 +23,10 @@ class TopicListActivity : AppCompatActivity() {
         val topics = getTopicsForSubject(subjectName)
         topicRv.layoutManager = LinearLayoutManager(this)
         topicRv.adapter = TopicAdapter(topics) { topic ->
-            val intent = android.content.Intent(this, TopicDetailActivity::class.java)
+            val intent = android.content.Intent(this, TopicDetailActivity2::class.java)
             intent.putExtra("TOPIC_NAME", topic.name)
             intent.putExtra("TOPIC_DIFFICULTY", topic.difficulty)
+            intent.putExtra("SUBJECT_NAME", subjectName)
             startActivity(intent)
         }
     }

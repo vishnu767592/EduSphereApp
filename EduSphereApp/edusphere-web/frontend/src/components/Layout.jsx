@@ -1,29 +1,24 @@
-import React from 'react';
-import Navbar from './Navbar';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 
 const Layout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Navbar />
-      <div style={{ display: 'flex', flex: 1 }}>
-        <Sidebar />
-        <main style={{
-          flex: 1,
-          padding: '32px',
-          overflowY: 'auto',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          width: '100%'
-        }} className="main-content">
+    <div style={{ display: 'flex', minHeight: '100vh' }}>
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginLeft: '260px', minWidth: 0 }} className="layout-content">
+        <Navbar onMenuToggle={() => setSidebarOpen(o => !o)} />
+        <main style={{ flex: 1, padding: '32px', maxWidth: '1400px', width: '100%', margin: '0 auto' }}>
           {children}
         </main>
       </div>
 
       <style>{`
-        @media (max-width: 576px) {
-          .main-content {
-            padding: 16px;
+        @media (max-width: 768px) {
+          .layout-content {
+            margin-left: 0 !important;
           }
         }
       `}</style>

@@ -73,9 +73,6 @@
         <activity android:name=".VRVideoActivity" />
         <activity android:name=".QuizActivity" />
         <activity android:name=".NotesActivity" />
-        <activity android:name=".ProgressDashboardActivity"/>
-        <activity android:name=".WeeklyStatsActivity"/>
-        <activity android:name=".PerformanceGraphActivity"/>
 
     </application>
 

@@ -15,7 +15,7 @@ import java.io.IOException
 
 class NotesActivity : AppCompatActivity() {
 
-    private val apiKey = "YOUR_GROQ_API_KEY_HERE"
+    private val apiKey = "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"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
