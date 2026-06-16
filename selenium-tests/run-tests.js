@@ -848,6 +848,45 @@ async function main() {
   // Write E2E Report
   const reportPath = path.join(reportsDir, 'index.html');
   fs.writeFileSync(reportPath, reportHtml);
+
+  // Generate Excel Report
+  try {
+    const XLSX = require('xlsx');
+    const wsData = [
+      ['Test ID', 'Test Name', 'Preconditions', 'Test Steps', 'Expected Result', 'Actual Result', 'Pass/Fail Status', 'Severity']
+    ];
+    testResults.forEach(r => {
+      wsData.push([
+        r.id,
+        r.name,
+        r.preconditions,
+        r.steps,
+        r.expected,
+        r.actual,
+        r.status,
+        r.severity
+      ]);
+    });
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    const colWidths = [
+      { wch: 12 }, // Test ID
+      { wch: 25 }, // Test Name
+      { wch: 35 }, // Preconditions
+      { wch: 45 }, // Test Steps
+      { wch: 35 }, // Expected Result
+      { wch: 45 }, // Actual Result
+      { wch: 16 }, // Status
+      { wch: 12 }  // Severity
+    ];
+    ws['!cols'] = colWidths;
+    XLSX.utils.book_append_sheet(wb, ws, 'E2E Test Results');
+    const excelPath = path.join(reportsDir, 'report.xlsx');
+    XLSX.writeFile(wb, excelPath);
+    console.log(`Excel Report generated: ${excelPath}`);
+  } catch (err) {
+    console.error('Error generating Excel report:', err.message);
+  }
   
   // Console completion summary
   console.log('\n=========================================');
