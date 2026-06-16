@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#12104A">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="#FFFFFF"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:id="@+id/topicTitleTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="12dp"
+                android:text="Topic Detail"/>
+
+        </LinearLayout>
+
+        <!-- Difficulty badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/topicDifficultyTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:background="@drawable/badge_bg"
+                android:textColor="#FFFFFF"
+                android:text="Level"/>
+
+        </LinearLayout>
+
+        <!-- AI Content Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#1E1B3A"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📚 Lesson Content"
+                    android:textColor="#7C6AF7"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+                <ProgressBar
+                    android:id="@+id/loadingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/topicContentTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"
+                    android:lineSpacingMultiplier="1.6"
+                    android:text="Loading content..."/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Quick Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <Button
+                android:id="@+id/startQuizBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="📝 Take Quiz"
+                android:backgroundTint="#7C6AF7"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="8dp"/>
+
+            <Button
+                android:id="@+id/viewNotesBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="📖 View Notes"
+                android:backgroundTint="#1E1B3A"
+                android:textColor="#7C6AF7"
+                android:layout_marginBottom="8dp"/>
+
+            <Button
+                android:id="@+id/watchVideoBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="📺 Watch Video"
+                android:backgroundTint="#1E1B3A"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Compatibility IDs -->
+            <Button
+                android:id="@+id/takeQuizBtn"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+            <Button
+                android:id="@+id/notesBtn"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

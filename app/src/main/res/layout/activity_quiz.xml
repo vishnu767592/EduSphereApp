@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#12104A">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/quizBackBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="#FFFFFF"/>
+        <TextView
+            android:id="@+id/quizTopicTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"/>
+        <TextView
+            android:id="@+id/timerTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⏱ 30s"
+            android:textColor="#7C6AF7"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- Progress + Score -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical">
+        <ProgressBar
+            android:id="@+id/quizProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"
+            android:progressTint="#7C6AF7"
+            android:progressBackgroundTint="#2A2750"/>
+        <TextView
+            android:id="@+id/scoreTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#7C6AF7"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/questionNumTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="#888888"
+        android:textSize="13sp"/>
+
+    <!-- Question Card -->
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#1E1B3A"
+        app:cardElevation="6dp">
+        <TextView
+            android:id="@+id/questionTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:lineSpacingMultiplier="1.4"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Options -->
+    <Button
+        android:id="@+id/optionA"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:backgroundTint="#2A2750"
+        android:stateListAnimator="@null"/>
+    <Button
+        android:id="@+id/optionB"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:backgroundTint="#2A2750"
+        android:stateListAnimator="@null"/>
+    <Button
+        android:id="@+id/optionC"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:backgroundTint="#2A2750"
+        android:stateListAnimator="@null"/>
+    <Button
+        android:id="@+id/optionD"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:backgroundTint="#2A2750"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="16dp"
+        android:text="Next →"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:backgroundTint="#7C6AF7"
+        android:stateListAnimator="@null"/>
+</LinearLayout>

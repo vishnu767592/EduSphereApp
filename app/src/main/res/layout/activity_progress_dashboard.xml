@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#12104A">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/progressBackBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="#FFFFFF"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📊 My Progress"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="12dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Level Card -->
+            <androidx.cardview.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#7C6AF7"
+                app:cardElevation="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Your Level"
+                        android:textColor="#DDDDFF"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/levelTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Starter 👋"
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:layout_marginVertical="8dp"/>
+                    <ProgressBar
+                        android:id="@+id/overallProgressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:progressTint="#FFFFFF"
+                        android:progressBackgroundTint="#5A4FD0"/>
+                    <TextView
+                        android:id="@+id/overallPercentTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:layout_marginTop="6dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Stats Grid -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:layout_marginBottom="16dp">
+
+                <!-- Topics -->
+                <androidx.cardview.widget.CardView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#1E1B3A"
+                    app:cardElevation="4dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📚"
+                            android:textSize="28sp"/>
+                        <TextView
+                            android:id="@+id/totalTopicsTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Topics Done"
+                            android:textColor="#888888"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Quizzes -->
+                <androidx.cardview.widget.CardView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#1E1B3A"
+                    app:cardElevation="4dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📝"
+                            android:textSize="28sp"/>
+                        <TextView
+                            android:id="@+id/totalQuizzesTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quizzes Done"
+                            android:textColor="#888888"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Avg Score -->
+                <androidx.cardview.widget.CardView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#1E1B3A"
+                    app:cardElevation="4dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="⭐"
+                            android:textSize="28sp"/>
+                        <TextView
+                            android:id="@+id/avgScoreTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0%"
+                            android:textColor="#FFFFFF"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Avg Score"
+                            android:textColor="#888888"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Streak -->
+                <androidx.cardview.widget.CardView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    app:cardCornerRadius="14dp"
+                    app:cardBackgroundColor="#1E1B3A"
+                    app:cardElevation="4dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥"
+                            android:textSize="28sp"/>
+                        <TextView
+                            android:id="@+id/streakTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Day Streak"
+                            android:textColor="#888888"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+            <!-- Navigation Cards -->
+            <androidx.cardview.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/weeklyStatsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="14dp"
+                app:cardBackgroundColor="#1E1B3A"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📅"
+                        android:textSize="28sp"
+                        android:layout_marginEnd="16dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weekly Stats"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="View your daily learning activity"
+                            android:textColor="#888888"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="›"
+                        android:textColor="#7C6AF7"
+                        android:textSize="28sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/performanceCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="14dp"
+                app:cardBackgroundColor="#1E1B3A"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📈"
+                        android:textSize="28sp"
+                        android:layout_marginEnd="16dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Performance Graph"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quiz scores and subject analysis"
+                            android:textColor="#888888"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="›"
+                        android:textColor="#7C6AF7"
+                        android:textSize="28sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Subject Progress -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📚 Subject Progress"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/subjectProgressContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,40 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme (Material 3) -->
+    <style name="Theme.EduSphere" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/primary_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Tertiary brand color. -->
+        <item name="colorTertiary">@color/primary_cyan</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Typography -->
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.EduSphere.HeadlineMedium</item>
+    </style>
+
+    <!-- Headline Style -->
+    <style name="TextAppearance.EduSphere.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Custom Button Style -->
+    <style name="Widget.EduSphere.Button" parent="Widget.Material3.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.EduSphere.MediumComponent</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.EduSphere.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+</resources>

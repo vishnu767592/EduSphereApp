@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="#12104A">
+
+    <TextView
+        android:id="@+id/resultEmoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="64sp"
+        android:layout_marginBottom="16dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quiz Complete!"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+    <TextView
+        android:id="@+id/resultScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#7C6AF7"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"/>
+    <TextView
+        android:id="@+id/resultPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#888888"
+        android:textSize="20sp"
+        android:layout_marginBottom="16dp"/>
+    <ProgressBar
+        android:id="@+id/resultProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:progressTint="#7C6AF7"
+        android:progressBackgroundTint="#2A2750"
+        android:layout_marginBottom="16dp"/>
+    <TextView
+        android:id="@+id/resultMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#CCCCCC"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+    <Button
+        android:id="@+id/reviewBtn"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="📝 Review Answers"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:backgroundTint="#7C6AF7"
+        android:layout_marginBottom="12dp"
+        android:stateListAnimator="@null"/>
+    <Button
+        android:id="@+id/homeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="🏠 Back to Home"
+        android:textColor="#7C6AF7"
+        android:textStyle="bold"
+        android:backgroundTint="#1E1B3A"
+        android:stateListAnimator="@null"/>
+</LinearLayout>

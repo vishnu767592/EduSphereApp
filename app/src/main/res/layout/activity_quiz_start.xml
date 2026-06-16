@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ready for a Quiz?"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Test your knowledge on this topic. You have 10 questions."
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/startQuizBtn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:text="Start Quiz" />
+
+</LinearLayout>
