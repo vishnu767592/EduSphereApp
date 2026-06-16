@@ -881,7 +881,7 @@ async function main() {
     ];
     ws['!cols'] = colWidths;
     XLSX.utils.book_append_sheet(wb, ws, 'E2E Test Results');
-    const excelPath = path.join(reportsDir, 'report.xlsx');
+    const excelPath = path.join(reportsDir, 'report_70_cases.xlsx');
     XLSX.writeFile(wb, excelPath);
     console.log(`Excel Report generated: ${excelPath}`);
   } catch (err) {
