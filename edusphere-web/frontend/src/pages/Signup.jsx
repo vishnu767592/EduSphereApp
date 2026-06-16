@@ -58,18 +58,21 @@ const Signup = () => {
 
         {/* Error Callout */}
         {error && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            background: 'rgba(255, 77, 77, 0.1)',
-            border: '1px solid rgba(255, 77, 77, 0.2)',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            color: '#FF4D4D',
-            fontSize: '14px',
-            marginBottom: '20px'
-          }}>
+          <div 
+            id="signup-error-message"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: 'rgba(255, 77, 77, 0.1)',
+              border: '1px solid rgba(255, 77, 77, 0.2)',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              color: '#FF4D4D',
+              fontSize: '14px',
+              marginBottom: '20px'
+            }}
+          >
             <ShieldAlert size={18} style={{ flexShrink: 0 }} />
             <span>{error}</span>
           </div>
@@ -97,6 +100,7 @@ const Signup = () => {
               }} />
               <input
                 type="text"
+                id="signup-name-input"
                 placeholder="Jane Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -126,6 +130,7 @@ const Signup = () => {
               }} />
               <input
                 type="email"
+                id="signup-email-input"
                 placeholder="jane@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -155,6 +160,7 @@ const Signup = () => {
               }} />
               <input
                 type="password"
+                id="signup-password-input"
                 placeholder="Minimum 4 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -167,6 +173,7 @@ const Signup = () => {
           {/* Submit */}
           <button
             type="submit"
+            id="signup-submit-btn"
             className="btn-primary"
             disabled={loading}
             style={{
@@ -195,11 +202,15 @@ const Signup = () => {
           color: 'var(--text-muted)'
         }}>
           Already have an account?{' '}
-          <Link to="/login" style={{
-            color: 'var(--primary)',
-            textDecoration: 'none',
-            fontWeight: 600
-          }}>
+          <Link 
+            to="/login" 
+            id="signin-link"
+            style={{
+              color: 'var(--primary)',
+              textDecoration: 'none',
+              fontWeight: 600
+            }}
+          >
             Sign in
           </Link>
         </div>

@@ -52,18 +52,21 @@ const Login = () => {
 
         {/* Error Callout */}
         {error && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            background: 'rgba(255, 77, 77, 0.1)',
-            border: '1px solid rgba(255, 77, 77, 0.2)',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            color: '#FF4D4D',
-            fontSize: '14px',
-            marginBottom: '20px'
-          }}>
+          <div 
+            id="login-error-message"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: 'rgba(255, 77, 77, 0.1)',
+              border: '1px solid rgba(255, 77, 77, 0.2)',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              color: '#FF4D4D',
+              fontSize: '14px',
+              marginBottom: '20px'
+            }}
+          >
             <ShieldAlert size={18} style={{ flexShrink: 0 }} />
             <span>{error}</span>
           </div>
@@ -91,6 +94,7 @@ const Login = () => {
               }} />
               <input
                 type="text"
+                id="login-email-input"
                 placeholder="email@example.com or admin"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -120,6 +124,7 @@ const Login = () => {
               }} />
               <input
                 type="password"
+                id="login-password-input"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -132,6 +137,7 @@ const Login = () => {
           {/* Submit */}
           <button
             type="submit"
+            id="login-submit-btn"
             className="btn-primary"
             disabled={loading}
             style={{
@@ -160,11 +166,15 @@ const Login = () => {
           color: 'var(--text-muted)'
         }}>
           Don't have an account?{' '}
-          <Link to="/signup" style={{
-            color: 'var(--primary)',
-            textDecoration: 'none',
-            fontWeight: 600
-          }}>
+          <Link 
+            to="/signup" 
+            id="signup-link"
+            style={{
+              color: 'var(--primary)',
+              textDecoration: 'none',
+              fontWeight: 600
+            }}
+          >
             Create account
           </Link>
         </div>
