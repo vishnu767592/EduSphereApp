@@ -22,6 +22,12 @@ module.exports = {
     }
   },
   
-  // Standard waiting timeout (milliseconds)
-  timeout: 5000
+  // Selenium WebDriver timeouts (milliseconds)
+  timeouts: {
+    elementWait: 10000,      // Max time to wait for element to be located
+    elementVisible: 8000,    // Max time to wait for element to be visible
+    pageLoad: 15000,         // Max time to wait for page to load
+    implicit: 5000,          // Implicit wait for element operations
+    default: 5000            // Default timeout for operations
+  }
 };
