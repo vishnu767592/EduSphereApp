@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
 }
-
+// Restart GitHub Actions
 android {
     namespace = "com.example.edusphereapp"
     compileSdk = 35
