@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="EduSphere"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.EduSphere">
+
+        <activity android:name=".SplashActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Onboarding1Activity" />
+        <activity android:name=".Onboarding2Activity" />
+        <activity android:name=".Onboarding3Activity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".OTPActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".CategoriesActivity" />
+        <activity android:name=".BookmarksActivity" />
+        <activity android:name=".SubjectListActivity" />
+        <activity android:name=".TopicListActivity" />
+        <activity android:name=".TopicDetailActivity" />
+        <activity android:name=".TopicDetailActivity2" />
+        <activity android:name=".VideoPlayerActivity" />
+        <activity android:name=".NotesViewerActivity" />
+        <activity android:name=".AddNotesActivity" />
+        <activity android:name=".QuizStartActivity" />
+        <activity android:name=".QuizQuestionsActivity" />
+        <activity android:name=".QuizResultActivity" />
+        <activity android:name=".ReviewAnswersActivity" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".VoiceInputActivity" />
+        <activity android:name=".AIResponseDetailActivity" />
+        <activity android:name=".ChatHistoryActivity" />
+        <activity android:name=".SavedAnswersActivity" />
+        <activity android:name=".AISuggestionsActivity" />
+        <activity android:name=".TypingIndicatorActivity" />
+        <activity android:name=".HologramViewerActivity" />
+        <activity android:name=".Object3DActivity" />
+        <activity android:name=".RotationControlsActivity" />
+        <activity android:name=".FullscreenHologramActivity" />
+        <activity android:name=".PlaybackControlActivity" />
+        <activity android:name=".HologramLibraryActivity" />
+        <activity android:name=".ProgressDashboardActivity" />
+        <activity android:name=".WeeklyStatsActivity" />
+        <activity android:name=".PerformanceGraphActivity" />
+        <activity android:name=".SubjectAnalysisActivity" />
+        <activity android:name=".AchievementsActivity" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".ThemeSettingsActivity" />
+        <activity android:name=".LanguageSettingsActivity" />
+        <activity android:name=".NotificationSettingsActivity" />
+        <activity android:name=".PrivacySettingsActivity" />
+        <activity android:name=".AboutAppActivity" />
+        <activity android:name=".HelpSupportActivity" />
+        <activity android:name=".VRVideoActivity" />
+        <activity android:name=".QuizActivity" />
+        <activity android:name=".NotesActivity" />
+        <activity android:name=".ProgressDashboardActivity"/>
+        <activity android:name=".WeeklyStatsActivity"/>
+        <activity android:name=".PerformanceGraphActivity"/>
+
+    </application>
+
+</manifest>

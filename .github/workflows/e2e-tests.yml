@@ -1,0 +1,100 @@
+name: EduSphere Web E2E Test Automation CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  e2e-testing:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_password_123
+          MYSQL_DATABASE: edusphere
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: |
+            edusphere-web/backend/package-lock.json
+            edusphere-web/frontend/package-lock.json
+
+      - name: Initialize Database Schema
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -u root -proot_password_123 < edusphere-web/database/schema.sql
+          # Add default test credentials matching config.js
+          mysql -h 127.0.0.1 -P 3306 -u root -proot_password_123 -e "
+            USE edusphere;
+            INSERT INTO users (name, email, password, role) VALUES 
+            ('Valid Student', 'student@edusphere.com', '\$2a\$10\$Xo7GgWlhvYn1X.T3Y3XqGOHzT.g1u5H/yKj.pQpQ53B2UvX8k/H7G', 'student'),
+            ('Admin Moderator', 'admin@edusphere.com', '\$2a\$10\$Xo7GgWlhvYn1X.T3Y3XqGOHzT.g1u5H/yKj.pQpQ53B2UvX8k/H7G', 'admin');
+          "
+
+      - name: Install & Run Backend Server
+        env:
+          PORT: 5000
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: root_password_123
+          DB_NAME: edusphere
+          JWT_SECRET: edusphere_jwt_secret_token_key_2026_db
+        run: |
+          cd edusphere-web/backend
+          npm install
+          npm start &
+          echo "Backend server started in background"
+
+      - name: Install & Run Frontend Client
+        run: |
+          cd edusphere-web/frontend
+          npm install
+          npm run dev &
+          echo "Vite development server started in background"
+
+      - name: Install Selenium Suite Dependencies
+        run: |
+          cd selenium-tests
+          npm install
+
+      - name: Install Chrome and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          # Chrome driver is automatically managed by selenium-webdriver in newer versions
+
+      - name: Wait for App Server Readiness
+        run: |
+          # Wait for backend (5000) and frontend (5173) to start listening
+          npx wait-on http://localhost:5000/api/auth/health || echo "Backend check skipped"
+          npx wait-on http://localhost:5173 --timeout 30000
+
+      - name: Execute E2E Selenium Tests
+        env:
+          BASE_URL: http://localhost:5173
+          BROWSER: chrome
+        run: |
+          cd selenium-tests
+          npm run test
+
+      - name: Archive Test Results & Failure Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: edusphere-e2e-report
+          path: |
+            selenium-tests/reports/
+          retention-days: 14
