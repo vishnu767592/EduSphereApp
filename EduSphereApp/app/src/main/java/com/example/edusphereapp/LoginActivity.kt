@@ -39,12 +39,12 @@ class LoginActivity : AppCompatActivity() {
 
                 if (emailInput == savedEmail && passInput == savedPass) {
                     Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else if (emailInput == "admin" && passInput == "1234") {
                     // Admin login backup
                     Toast.makeText(this, "Admin Login", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Invalid credentials. Please Signup first.", Toast.LENGTH_SHORT).show()

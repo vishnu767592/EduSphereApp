@@ -1,119 +1,69 @@
 package com.example.edusphereapp
 
-import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
-import org.json.JSONObject
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlin.concurrent.thread
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import com.example.edusphereapp.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var userInput: EditText
-    lateinit var askBtn: Button
-    lateinit var responseText: TextView
-    lateinit var videoView: VideoView
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        
+        // Apply theme
+        val themeMode = ThemeHelper.getTheme(this)
+        ThemeHelper.applyTheme(this, themeMode)
 
-        // UI linking
-        userInput = findViewById(R.id.userInput)
-        askBtn = findViewById(R.id.askBtn)
-        responseText = findViewById(R.id.responseText)
-        videoView = findViewById(R.id.videoView)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        askBtn.setOnClickListener {
+        setSupportActionBar(binding.toolbar)
 
-            thread {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
-                try {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+        val bottomNav: BottomNavigationView = binding.bottomNav
 
-                    // ✅ YOUR FLASK BACKEND URL
-                    val url =
-                        URL("http://172.25.48.131:5000/ask")
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_ai_tutor, R.id.nav_hologram, R.id.nav_notes, R.id.nav_profile,
+                R.id.nav_dashboard, R.id.nav_quiz_arena, R.id.nav_analytics, R.id.nav_achievements, R.id.nav_settings
+            ), drawerLayout
+        )
 
-                    val connection =
-                        url.openConnection() as HttpURLConnection
-
-                    connection.requestMethod = "POST"
-
-                    connection.setRequestProperty(
-                        "Content-Type",
-                        "application/json",
-                    )
-
-                    connection.doOutput = true
-
-                    // Send question
-                    val jsonInput = JSONObject()
-
-                    jsonInput.put(
-                        "question",
-                        userInput.text.toString()
-                    )
-
-                    val writer =
-                        OutputStreamWriter(connection.outputStream)
-
-                    writer.write(jsonInput.toString())
-                    writer.flush()
-
-                    // Get response
-                    val response =
-                        connection.inputStream.bufferedReader()
-                            .readText()
-
-                    val jsonResponse =
-                        JSONObject(response)
-
-                    val answer =
-                        jsonResponse.getString("answer")
-
-                    val video =
-                        jsonResponse.getString("video")
-
-                    runOnUiThread {
-
-                        // Show answer
-                        responseText.text = answer
-
-                        // Play video
-                        val videoPath =
-                            "android.resource://$packageName/raw/" +
-                                    video.replace(".mp4", "")
-
-                        val uri = Uri.parse(videoPath)
-
-                        videoView.setVideoURI(uri)
-
-                        videoView.setOnPreparedListener { mp ->
-                            mp.isLooping = true
-                            videoView.start()
-                        }
-                    }
-
-                } catch (e: Exception) {
-
-                    runOnUiThread {
-                        responseText.text =
-                            "Error: ${e.message}"
-                    }
-
-                }
-
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+        bottomNav.setupWithNavController(navController)
+        
+        // Handle Logout specially if needed
+        navView.setNavigationItemSelectedListener { menuItem ->
+            if (menuItem.itemId == R.id.nav_logout) {
+                // Handle logout logic
+                finish()
+                true
+            } else {
+                NavigationUI.onNavDestinationSelected(menuItem, navController)
+                drawerLayout.closeDrawers()
+                true
             }
-
         }
-
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
+    }
 }

@@ -42,7 +42,8 @@ public class AIController {
 
         String reply = aiService.generateChatResponse(history, message);
         Map<String, String> body = new HashMap<>();
-        body.put("answer", reply);
+        // Frontend expects a `reply` field for chat responses
+        body.put("reply", reply);
         body.put("content", reply);
         return ResponseEntity.ok(body);
     }

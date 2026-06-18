@@ -29,31 +29,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:padding="10dp"
-            app:srcCompat="@android:drawable/ic_dialog_info"
-            app:tint="@color/primary_cyan" />
+        <com.airbnb.android.lottie.LottieAnimationView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation" />
 
         <TextView
             android:id="@+id/appName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:letterSpacing="0.1"
-            android:text="EDUSPHERE"
+            android:text="EDUSPHERE AI"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3D Hologram Assistant"
+            android:text="Intelligent 3D Learning"
             android:textColor="@color/primary_cyan"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:letterSpacing="0.2"/>
 
     </LinearLayout>

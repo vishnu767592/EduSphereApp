@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
           }
         });
         if (response.ok) {
-          const userData = await response.json();
+          const userData = await parseJsonSafe(response);
           setUser(userData);
         } else {
           // Token expired or invalid
@@ -43,15 +43,19 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ email, password })
     });
 
-    const data = await response.json();
+    const data = await parseJsonSafe(response);
     if (!response.ok) {
-      throw new Error(data.message || 'Login failed');
+      throw new Error((data && data.message) || `Login failed (status ${response.status})`);
     }
 
-    localStorage.setItem('edusphere_token', data.token);
-    setToken(data.token);
-    setUser(data.user);
-    return data.user;
+    if (data && data.token) {
+      localStorage.setItem('edusphere_token', data.token);
+      setToken(data.token);
+      setUser(data.user || null);
+      return data.user;
+    }
+
+    throw new Error('Login succeeded but server returned no token.');
   };
 
   const register = async (name, email, password) => {
@@ -61,15 +65,30 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ name, email, password })
     });
 
-    const data = await response.json();
+    const data = await parseJsonSafe(response);
     if (!response.ok) {
-      throw new Error(data.message || 'Registration failed');
+      throw new Error((data && data.message) || `Registration failed (status ${response.status})`);
     }
 
-    localStorage.setItem('edusphere_token', data.token);
-    setToken(data.token);
-    setUser(data.user);
-    return data.user;
+    if (data && data.token) {
+      localStorage.setItem('edusphere_token', data.token);
+      setToken(data.token);
+      setUser(data.user || null);
+      return data.user;
+    }
+
+    throw new Error('Registration succeeded but server returned no token.');
+  };
+
+  // Safe JSON parser: returns parsed object, or null if body empty or invalid JSON
+  const parseJsonSafe = async (res) => {
+    try {
+      const text = await res.text();
+      if (!text) return null;
+      return JSON.parse(text);
+    } catch (e) {
+      return null;
+    }
   };
 
   const logout = () => {

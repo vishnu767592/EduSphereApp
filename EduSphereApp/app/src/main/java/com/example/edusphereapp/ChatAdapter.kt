@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class ChatAdapter(private val messages: List<ChatMessage>) :
-    RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+class ChatAdapter : ListAdapter<ChatMessage, ChatAdapter.ChatViewHolder>(DiffCallback()) {
 
     companion object {
         private const val TYPE_USER = 1
@@ -15,7 +16,7 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isUser) TYPE_USER else TYPE_AI
+        return if (getItem(position).isUser) TYPE_USER else TYPE_AI
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -25,12 +26,18 @@ class ChatAdapter(private val messages: List<ChatMessage>) :
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.messageTv.text = messages[position].text
+        holder.messageTv.text = getItem(position).text
     }
-
-    override fun getItemCount(): Int = messages.size
 
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageTv: TextView = itemView.findViewById(R.id.messageTv)
+    }
+
+    class DiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
+        override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage) = 
+            oldItem.text == newItem.text && oldItem.isUser == newItem.isUser
+
+        override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage) = 
+            oldItem == newItem
     }
 }

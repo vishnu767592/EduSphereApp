@@ -6,9 +6,9 @@
     android:background="?attr/colorSurface">
 
     <View
-        android:id="@+id/topBar"
+        android:id="@+id/bgHeader"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="240dp"
         android:background="@drawable/bg_futuristic_gradient"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -16,22 +16,23 @@
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="48dp"
         android:text="Welcome Back"
         android:textAppearance="?attr/textAppearanceHeadlineLarge"
         android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/topBar"
+        app:layout_constraintBottom_toBottomOf="@+id/bgHeader"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="-30dp"
         app:cardCornerRadius="32dp"
         app:cardElevation="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/topBar"
+        app:layout_constraintTop_toBottomOf="@+id/bgHeader"
         app:strokeWidth="0dp">
 
         <LinearLayout
@@ -44,12 +45,7 @@
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Email Address"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
+                android:hint="Email"
                 app:startIconDrawable="@android:drawable/ic_dialog_email">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -65,10 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Password"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
                 app:endIconMode="password_toggle"
                 app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
 
@@ -81,13 +73,21 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginBtn"
-                style="@style/Widget.EduSphere.Button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="@color/primary_purple"
+                android:layout_height="56dp"
+                android:layout_marginTop="32dp"
                 android:text="Login"
-                android:textColor="@color/white" />
+                app:cornerRadius="16dp" />
+
+            <TextView
+                android:id="@+id/forgotPasswordTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="Forgot Password?"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,14 +99,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New user? " />
+                    android:text="New to EduSphere? " />
 
                 <TextView
                     android:id="@+id/signupTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign Up"
-                    android:textColor="@color/primary_purple"
+                    android:textColor="?attr/colorPrimary"
                     android:textStyle="bold" />
             </LinearLayout>
 

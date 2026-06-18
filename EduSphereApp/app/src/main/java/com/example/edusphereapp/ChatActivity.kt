@@ -44,7 +44,7 @@ class ChatActivity : AppCompatActivity() {
         typingIndicator = findViewById(R.id.typingIndicator)
         val voiceBtn = findViewById<ImageButton>(R.id.voiceBtn)
 
-        adapter = ChatAdapter(messages)
+        adapter = ChatAdapter()
         chatRv.layoutManager = LinearLayoutManager(this).apply {
             stackFromEnd = true
         }
@@ -67,8 +67,11 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun addMessage(text: String, isUser: Boolean) {
-        messages.add(ChatMessage(text, isUser))
-        adapter.notifyItemInserted(messages.size - 1)
+        val currentList = messages.toMutableList()
+        currentList.add(ChatMessage(text, isUser))
+        messages.clear()
+        messages.addAll(currentList)
+        adapter.submitList(messages.toList())
         chatRv.scrollToPosition(messages.size - 1)
     }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.edusphereapp.ui.fragment.HomeFragment"
+        android:label="EduSphere Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_ai_tutor"
+        android:name="com.example.edusphereapp.ui.fragment.AiTutorFragment"
+        android:label="AI Tutor" />
+
+    <fragment
+        android:id="@+id/nav_hologram"
+        android:name="com.example.edusphereapp.ui.fragment.HologramFragment"
+        android:label="Hologram Lab"
+        tools:layout="@layout/fragment_hologram" />
+
+    <fragment
+        android:id="@+id/nav_notes"
+        android:name="com.example.edusphereapp.ui.fragment.NotesFragment"
+        android:label="Smart Notes"
+        tools:layout="@layout/fragment_notes" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.edusphereapp.ui.fragment.ProfileFragment"
+        android:label="User Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/nav_dashboard"
+        android:name="com.example.edusphereapp.ui.fragment.DashboardFragment"
+        android:label="Dashboard" />
+
+    <fragment
+        android:id="@+id/nav_quiz_arena"
+        android:name="com.example.edusphereapp.ui.fragment.QuizArenaFragment"
+        android:label="Quiz Arena" />
+
+    <fragment
+        android:id="@+id/nav_analytics"
+        android:name="com.example.edusphereapp.ui.fragment.AnalyticsFragment"
+        android:label="Learning Analytics" />
+
+    <fragment
+        android:id="@+id/nav_achievements"
+        android:name="com.example.edusphereapp.ui.fragment.AchievementsFragment"
+        android:label="Achievements" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.edusphereapp.ui.fragment.SettingsFragment"
+        android:label="Settings" />
+
+</navigation>
