@@ -52,15 +52,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow localhost for dev and Railway/Vercel domains for production
+        // Allow localhost for dev and Railway domains for production
         String frontendUrl = System.getenv("FRONTEND_URL");
-        java.util.List<String> allowedOrigins = new java.util.ArrayList<>(Arrays.asList(
-            "http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:5173"
+        java.util.List<String> allowedOriginPatterns = new java.util.ArrayList<>(Arrays.asList(
+            "http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:5173",
+            "https://*.railway.app", "https://*.up.railway.app"
         ));
         if (frontendUrl != null && !frontendUrl.isEmpty()) {
-            allowedOrigins.add(frontendUrl);
+            allowedOriginPatterns.add(frontendUrl);
         }
-        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.setAllowedOriginPatterns(allowedOriginPatterns);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
         configuration.setExposedHeaders(Collections.singletonList("Authorization"));
