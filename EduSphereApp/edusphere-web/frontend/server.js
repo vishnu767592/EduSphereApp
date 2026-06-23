@@ -1,8 +1,11 @@
-// Simple static file server for Railway deployment
-// Serves the Vite build output from /dist
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+// Simple static file server for Railway deployment (ES Module)
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -22,20 +25,17 @@ const MIME_TYPES = {
   '.woff2':'font/woff2',
   '.ttf':  'font/ttf',
   '.webp': 'image/webp',
+  '.mp4':  'video/mp4',
 };
 
 const server = http.createServer((req, res) => {
   let filePath = path.join(DIST_DIR, req.url === '/' ? 'index.html' : req.url);
-  
-  // Remove query strings
   filePath = filePath.split('?')[0];
 
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
-      // SPA fallback: serve index.html for any route not found
       filePath = path.join(DIST_DIR, 'index.html');
     }
-    
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
@@ -51,6 +51,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Frontend server running on port ${PORT}`);
+server.listen(parseInt(PORT), '0.0.0.0', () => {
+  console.log(`Frontend server running on http://0.0.0.0:${PORT}`);
 });
