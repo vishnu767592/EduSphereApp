@@ -40,8 +40,8 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // allow public auth endpoints and AI endpoints for development/testing
-                .requestMatchers("/api/auth/register", "/api/auth/login", "/api/ai/**").permitAll()
+                // allow public auth endpoints, health check, and AI endpoints
+                .requestMatchers("/api/auth/register", "/api/auth/login", "/api/ai/**", "/api/health").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -52,7 +52,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:5173"));
+        // Allow localhost for dev and Railway/Vercel domains for production
+        String frontendUrl = System.getenv("FRONTEND_URL");
+        java.util.List<String> allowedOrigins = new java.util.ArrayList<>(Arrays.asList(
+            "http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:5173"
+        ));
+        if (frontendUrl != null && !frontendUrl.isEmpty()) {
+            allowedOrigins.add(frontendUrl);
+        }
+        configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
         configuration.setExposedHeaders(Collections.singletonList("Authorization"));
