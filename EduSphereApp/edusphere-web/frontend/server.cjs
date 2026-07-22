@@ -3,8 +3,15 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 const DIST_DIR = path.join(__dirname, 'dist');
+
+// Ensure dist directory exists
+if (!fs.existsSync(DIST_DIR)) {
+  console.log('WARNING: dist/ directory not found, creating minimal fallback...');
+  fs.mkdirSync(DIST_DIR, { recursive: true });
+  fs.writeFileSync(path.join(DIST_DIR, 'index.html'), '<!doctype html><html><head><title>EduSphere</title></head><body><div id="root">Loading...</div></body></html>');
+}
 
 // In-memory data store for live demo functionality
 const usersDB = [
@@ -158,8 +165,13 @@ const server = http.createServer(async (req, res) => {
       ]);
     }
 
+    // Bookmarks
+    if (pathname === '/api/progress/bookmarks') {
+      return sendJson(res, 200, []);
+    }
+
     // Notes API
-    if (pathname === '/api/progress/notes') {
+    if (pathname === '/api/progress/notes' || pathname === '/api/notes') {
       if (req.method === 'POST') {
         const { title, content } = await getRequestBody(req);
         const newNote = { id: Date.now(), title: title || 'Untitled Note', content: content || '', createdAt: new Date().toISOString() };
@@ -197,6 +209,11 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { totalUsers: 1240, activeCourses: 35, totalCompletions: 4890 });
     }
 
+    // Admin Users
+    if (pathname === '/api/admin/users') {
+      return sendJson(res, 200, []);
+    }
+
     // Fallback for any unhandled /api path
     return sendJson(res, 200, { message: 'API request processed successfully' });
   }
@@ -227,5 +244,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(parseInt(PORT), '0.0.0.0', () => {
-  console.log(`EduSphere Web Application server running on http://0.0.0.0:${PORT}`);
+  console.log(`EduSphere server running on http://0.0.0.0:${PORT}`);
 });
