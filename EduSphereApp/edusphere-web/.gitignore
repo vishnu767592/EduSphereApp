@@ -27,3 +27,6 @@ backend/src/main/resources/application-local.properties
 # Gradle (Android)
 .gradle/
 local.properties
+
+!backend/app.jar
+
