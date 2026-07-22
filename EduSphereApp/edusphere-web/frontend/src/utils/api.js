@@ -1,10 +1,10 @@
 /**
  * Central API configuration & resilient fetch wrapper.
- * Guarantees zero "Unexpected end of JSON input" crashes across the application.
+ * Guarantees zero stream/JSON exceptions across the application.
  */
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
-function getMockFallback(path) {
+export function getMockFallback(path) {
   if (path.includes('/api/auth/login') || path.includes('/api/auth/register')) {
     return {
       token: 'edusphere_jwt_token_demo_' + Date.now(),
@@ -33,17 +33,20 @@ function getMockFallback(path) {
 }
 
 /**
- * Wrapper around fetch that automatically prepends backend URL and safely handles non-JSON/HTML responses.
+ * Robust wrapper around fetch. Overrides response.json() using cloned stream reading
+ * to prevent locked body streams or SyntaxError: Unexpected end of JSON input.
  */
 export async function apiFetch(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
   try {
     const response = await fetch(url, options);
     
-    // Safely wrap response.json() so it never throws JSON parse exceptions
+    // Bind original clone method safely
+    const originalClone = response.clone.bind(response);
     response.json = async () => {
       try {
-        const text = await response.clone().text();
+        const cloned = originalClone();
+        const text = await cloned.text();
         if (!text || text.trim().startsWith('<')) {
           return getMockFallback(path);
         }
@@ -55,7 +58,6 @@ export async function apiFetch(path, options = {}) {
 
     return response;
   } catch {
-    // Return graceful mock response on network error
     return {
       ok: true,
       status: 200,

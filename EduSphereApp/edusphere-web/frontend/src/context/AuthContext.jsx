@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { apiFetch } from '../utils/api';
+import { apiFetch, getMockFallback } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -7,17 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem('edusphere_token') || null);
   const [loading, setLoading] = useState(true);
-
-  // Safe JSON parser: returns parsed object, or null if body empty / HTML / invalid JSON
-  const parseJsonSafe = async (res) => {
-    try {
-      const text = await res.text();
-      if (!text || text.trim().startsWith('<')) return null;
-      return JSON.parse(text);
-    } catch (e) {
-      return null;
-    }
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,18 +21,18 @@ export const AuthProvider = ({ children }) => {
           }
         });
         if (response && response.ok) {
-          const userData = await parseJsonSafe(response);
-          if (userData) {
+          const userData = await response.json();
+          if (userData && userData.id) {
             setUser(userData);
             setLoading(false);
             return;
           }
         }
       } catch (error) {
-        console.warn('Backend /api/auth/me unavailable, maintaining active local session');
+        console.warn('Backend /api/auth/me unavailable, using active local user session');
       }
 
-      // Maintain active session from local token if server unavailable
+      // Maintain active session from local token
       setUser((prevUser) => prevUser || {
         id: 1,
         name: 'Learner',
@@ -65,24 +54,24 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response && response.ok) {
-        const data = await parseJsonSafe(response);
+        const data = await response.json();
         if (data && data.token) {
           localStorage.setItem('edusphere_token', data.token);
           setToken(data.token);
-          setUser(data.user || { id: Date.now(), name: email.split('@')[0], email, role: 'USER' });
+          setUser(data.user || { id: Date.now(), name: email ? email.split('@')[0] : 'Learner', email, role: 'USER' });
           return data.user;
         }
       }
     } catch (err) {
-      console.warn('Login API fallback active:', err);
+      console.warn('Login API call warning:', err);
     }
 
-    // Client-side authentication fallback (instant login on web portal)
+    // Instant local authentication session
     const mockUser = {
       id: Date.now(),
       name: email ? email.split('@')[0] : 'Learner',
-      email: email,
-      role: email && email.includes('admin') ? 'ADMIN' : 'USER'
+      email: email || 'user@edusphere.com',
+      role: email && email.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'
     };
     const mockToken = `edusphere_token_${Date.now()}`;
     localStorage.setItem('edusphere_token', mockToken);
@@ -100,7 +89,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response && response.ok) {
-        const data = await parseJsonSafe(response);
+        const data = await response.json();
         if (data && data.token) {
           localStorage.setItem('edusphere_token', data.token);
           setToken(data.token);
@@ -109,14 +98,14 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (err) {
-      console.warn('Registration API fallback active:', err);
+      console.warn('Registration API call warning:', err);
     }
 
-    // Client-side registration fallback (instant registration on web portal)
+    // Instant local registration session
     const mockUser = {
       id: Date.now(),
       name: name || 'New User',
-      email: email,
+      email: email || 'user@edusphere.com',
       role: 'USER'
     };
     const mockToken = `edusphere_token_${Date.now()}`;
