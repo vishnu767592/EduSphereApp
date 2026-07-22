@@ -1,4 +1,5 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS build
+ENV MAVEN_OPTS="-Xmx384m"
 WORKDIR /app
 COPY edusphere-web/backend/pom.xml .
 COPY edusphere-web/backend/src ./src
