@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import { Users, BarChart3, Trophy, Trash2, ShieldCheck } from 'lucide-react';
 import Loader from '../components/Loader';
 
@@ -15,11 +16,11 @@ const AdminPanel = () => {
     const load = async () => {
       try {
         const [statsRes, usersRes] = await Promise.all([
-          fetch('/api/admin/stats', { headers: { Authorization: `Bearer ${token}` } }),
-          fetch('/api/admin/users', { headers: { Authorization: `Bearer ${token}` } }),
+          apiFetch('/api/admin/stats', { headers: { Authorization: `Bearer ${token}` } }),
+          apiFetch('/api/admin/users', { headers: { Authorization: `Bearer ${token}` } }),
         ]);
-        if (statsRes.ok) setStats(await statsRes.json());
-        if (usersRes.ok) setUsers(await usersRes.json());
+        setStats(await statsRes.json());
+        setUsers(await usersRes.json());
       } catch (e) { /* silent */ }
       setLoading(false);
     };
@@ -30,7 +31,7 @@ const AdminPanel = () => {
     if (!window.confirm(`Delete user "${name}"? This action cannot be undone.`)) return;
     setDeleting(id);
     try {
-      const res = await fetch(`/api/admin/user/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await apiFetch(`/api/admin/user/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       if (res.ok) setUsers(u => u.filter(user => user.id !== id));
     } catch (e) { /* silent */ }
     setDeleting(null);

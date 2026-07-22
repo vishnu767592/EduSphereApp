@@ -108,7 +108,7 @@ const Quiz = () => {
     if (!token) return;
     const pct = Math.round((finalScore / questions.length) * 100);
     try {
-      await fetch('/api/quiz/submit', {
+      await apiFetch('/api/quiz/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ topicName: decoded, score: finalScore, total: questions.length, percentage: pct }),

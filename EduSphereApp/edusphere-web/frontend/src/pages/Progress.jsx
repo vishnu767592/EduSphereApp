@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import { Flame, CheckCircle, Trophy, BarChart3, Calendar, Award } from 'lucide-react';
 import Loader from '../components/Loader';
 
@@ -12,13 +13,13 @@ const Progress = () => {
     const fetch_ = async () => {
       try {
         const [summRes, weekRes, certRes] = await Promise.all([
-          fetch('/api/progress/summary', { headers: { Authorization: `Bearer ${token}` } }),
-          fetch('/api/progress/weekly', { headers: { Authorization: `Bearer ${token}` } }),
-          fetch('/api/progress/certificates', { headers: { Authorization: `Bearer ${token}` } }),
+          apiFetch('/api/progress/summary', { headers: { Authorization: `Bearer ${token}` } }),
+          apiFetch('/api/progress/weekly', { headers: { Authorization: `Bearer ${token}` } }),
+          apiFetch('/api/progress/certificates', { headers: { Authorization: `Bearer ${token}` } }),
         ]);
-        const summary = summRes.ok ? await summRes.json() : {};
-        const weekly = weekRes.ok ? await weekRes.json() : [];
-        const certs = certRes.ok ? await certRes.json() : [];
+        const summary = await summRes.json();
+        const weekly = await weekRes.json();
+        const certs = await certRes.json();
         setData({ summary, weekly, certs });
       } catch (e) {
         setData({ summary: {}, weekly: [], certs: [] });

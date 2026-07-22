@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import { Send, Bot, User, Sparkles, Trash2 } from 'lucide-react';
 import Loader from '../components/Loader';
 
@@ -24,7 +25,7 @@ const AITutor = () => {
     setMessages(m => [...m, userMsg]);
     setLoading(true);
     try {
-      const res = await fetch('/api/ai/chat', {
+      const res = await apiFetch('/api/ai/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ message: text, history: messages }),

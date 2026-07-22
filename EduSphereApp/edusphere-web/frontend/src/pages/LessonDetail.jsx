@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Brain, StickyNote, Bookmark, CheckCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import Loader from '../components/Loader';
 
 const LessonDetail = () => {
@@ -26,7 +27,7 @@ const LessonDetail = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch('/api/ai/lesson', {
+        const res = await apiFetch('/api/ai/lesson', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify({ topic: decoded.topic, subject: decoded.subject }),
@@ -46,7 +47,7 @@ const LessonDetail = () => {
   const markComplete = async () => {
     setCompleting(true);
     try {
-      const res = await fetch('/api/progress/complete', {
+      const res = await apiFetch('/api/progress/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ topicName: decoded.topic, subjectName: decoded.subject }),
@@ -59,7 +60,7 @@ const LessonDetail = () => {
   const toggleBookmark = async () => {
     setBookmarking(true);
     try {
-      const res = await fetch('/api/progress/bookmark', {
+      const res = await apiFetch('/api/progress/bookmark', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ topicName: decoded.topic, subjectName: decoded.subject }),

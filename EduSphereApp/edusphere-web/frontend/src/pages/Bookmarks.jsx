@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../utils/api';
 import { Bookmark, Trash2, BookOpen } from 'lucide-react';
 import Loader from '../components/Loader';
 
@@ -13,7 +14,7 @@ const Bookmarks = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/progress/bookmarks', { headers: { Authorization: `Bearer ${token}` } });
+        const res = await apiFetch('/api/progress/bookmarks', { headers: { Authorization: `Bearer ${token}` } });
         if (res.ok) setBookmarks(await res.json());
       } catch (e) { /* silent */ }
       setLoading(false);
@@ -23,7 +24,7 @@ const Bookmarks = () => {
 
   const removeBookmark = async (id) => {
     try {
-      await fetch(`/api/progress/bookmark/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      await apiFetch(`/api/progress/bookmark/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       setBookmarks(b => b.filter(bk => bk.id !== id));
     } catch (e) { /* silent */ }
   };

@@ -33,7 +33,7 @@ const Dashboard = () => {
     const fetchStats = async () => {
       if (!token) return;
       try {
-        const response = await fetch('/api/progress/summary', {
+        const response = await apiFetch('/api/progress/summary', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {

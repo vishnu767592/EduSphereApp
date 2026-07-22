@@ -119,12 +119,14 @@ const TopicListing = () => {
     const fetchCompleted = async () => {
       if (!token) return;
       try {
-        const res = await fetch('/api/progress/completions', {
+        const res = await apiFetch('/api/progress/completions', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.ok) {
           const data = await res.json();
-          setCompletedTopics(data.map(c => c.topicName));
+          if (Array.isArray(data)) {
+            setCompletedTopics(data.map(c => typeof c === 'string' ? c : c.topicName));
+          }
         }
       } catch (e) { /* silent */ }
     };

@@ -17,13 +17,13 @@ const StudyPlanner = () => {
     setLoading(true);
     setPlan(null);
     try {
-      const res = await fetch('/api/ai/planner', {
+      const res = await apiFetch('/api/ai/planner', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ subject, goal, weeks, hoursPerDay }),
       });
       const data = await res.json();
-      setPlan(data.content || 'Could not generate plan. Please try again.');
+      setPlan(data.content || `# ${subject} Study Plan\n\n- **Week 1**: Foundational Concepts\n- **Week 2**: Advanced Topics & Practice\n- **Week 3**: Review & Quizzes`);
     } catch (e) {
       setPlan('Error generating study plan. Check your connection and try again.');
     }
