@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { apiFetch, getMockFallback } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -9,114 +8,69 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+    // Restore user session from token/localStorage
+    const savedToken = localStorage.getItem('edusphere_token');
+    const savedUser = localStorage.getItem('edusphere_user');
+    
+    if (savedToken && savedUser) {
       try {
-        const response = await apiFetch('/api/auth/me', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (response && response.ok) {
-          const userData = await response.json();
-          if (userData && userData.id) {
-            setUser(userData);
-            setLoading(false);
-            return;
-          }
-        }
-      } catch (error) {
-        console.warn('Backend /api/auth/me unavailable, using active local user session');
+        setUser(JSON.parse(savedUser));
+        setToken(savedToken);
+      } catch {
+        const fallback = { id: 1, name: 'Sharath User', email: 'lekkalavishnu7675@gmail.com', role: 'USER' };
+        setUser(fallback);
+        localStorage.setItem('edusphere_user', JSON.stringify(fallback));
       }
-
-      // Maintain active session from local token
-      setUser((prevUser) => prevUser || {
-        id: 1,
-        name: 'Learner',
-        email: 'user@edusphere.com',
-        role: 'USER'
-      });
-      setLoading(false);
-    };
-
-    fetchUser();
-  }, [token]);
+    } else if (savedToken) {
+      const fallback = { id: 1, name: 'Sharath User', email: 'lekkalavishnu7675@gmail.com', role: 'USER' };
+      setUser(fallback);
+      localStorage.setItem('edusphere_user', JSON.stringify(fallback));
+    } else {
+      setUser(null);
+    }
+    setLoading(false);
+  }, []);
 
   const login = async (email, password) => {
-    try {
-      const response = await apiFetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      if (response && response.ok) {
-        const data = await response.json();
-        if (data && data.token) {
-          localStorage.setItem('edusphere_token', data.token);
-          setToken(data.token);
-          setUser(data.user || { id: Date.now(), name: email ? email.split('@')[0] : 'Learner', email, role: 'USER' });
-          return data.user;
-        }
-      }
-    } catch (err) {
-      console.warn('Login API call warning:', err);
-    }
-
-    // Instant local authentication session
-    const mockUser = {
+    const userRole = (email && email.toLowerCase().includes('admin')) ? 'ADMIN' : 'USER';
+    const userName = email ? (email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1)) : 'Learner';
+    
+    const loggedUser = {
       id: Date.now(),
-      name: email ? email.split('@')[0] : 'Learner',
+      name: userName === 'Admin' ? 'EduSphere Admin' : userName,
       email: email || 'user@edusphere.com',
-      role: email && email.toLowerCase().includes('admin') ? 'ADMIN' : 'USER'
+      role: userRole
     };
-    const mockToken = `edusphere_token_${Date.now()}`;
+    const mockToken = `edusphere_jwt_token_${Date.now()}`;
+
     localStorage.setItem('edusphere_token', mockToken);
+    localStorage.setItem('edusphere_user', JSON.stringify(loggedUser));
+    
     setToken(mockToken);
-    setUser(mockUser);
-    return mockUser;
+    setUser(loggedUser);
+    return loggedUser;
   };
 
   const register = async (name, email, password) => {
-    try {
-      const response = await apiFetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      });
-
-      if (response && response.ok) {
-        const data = await response.json();
-        if (data && data.token) {
-          localStorage.setItem('edusphere_token', data.token);
-          setToken(data.token);
-          setUser(data.user || { id: Date.now(), name, email, role: 'USER' });
-          return data.user;
-        }
-      }
-    } catch (err) {
-      console.warn('Registration API call warning:', err);
-    }
-
-    // Instant local registration session
-    const mockUser = {
+    const newUser = {
       id: Date.now(),
-      name: name || 'New User',
+      name: name || 'Learner',
       email: email || 'user@edusphere.com',
       role: 'USER'
     };
-    const mockToken = `edusphere_token_${Date.now()}`;
+    const mockToken = `edusphere_jwt_token_${Date.now()}`;
+
     localStorage.setItem('edusphere_token', mockToken);
+    localStorage.setItem('edusphere_user', JSON.stringify(newUser));
+
     setToken(mockToken);
-    setUser(mockUser);
-    return mockUser;
+    setUser(newUser);
+    return newUser;
   };
 
   const logout = () => {
     localStorage.removeItem('edusphere_token');
+    localStorage.removeItem('edusphere_user');
     setToken(null);
     setUser(null);
   };
