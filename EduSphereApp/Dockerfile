@@ -1,13 +1,6 @@
-FROM maven:3.9.6-eclipse-temurin-17 AS build
-ENV MAVEN_OPTS="-Xmx384m"
-WORKDIR /app
-COPY edusphere-web/backend/pom.xml .
-COPY edusphere-web/backend/src ./src
-RUN mvn clean package -DskipTests
-
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/target/backend-1.0.0.jar app.jar
+COPY edusphere-web/backend/app.jar app.jar
 EXPOSE 8080
 ENV PORT=8080
 ENV SPRING_PROFILES_ACTIVE=dev
