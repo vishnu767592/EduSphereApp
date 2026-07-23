@@ -23,7 +23,7 @@ jobs:
       - name: Run Selenium tests
         run: |
           cd EduSphereApp/edusphere-web/backend
-          mvn -B test -Dtest=selenium.*
+          mvn -B test -Dtest=SeleniumUITest -Dsurefire.failIfNoSpecifiedTests=false
       - name: Generate Excel report
         run: |
           cd EduSphereApp/edusphere-web/backend

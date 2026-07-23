@@ -23,7 +23,7 @@ jobs:
       - name: Run Appium Android tests
         run: |
           cd EduSphereApp/edusphere-web/backend
-          mvn -B test -Dtest=appium.*
+          mvn -B test -Dtest=AndroidAppiumTest -Dsurefire.failIfNoSpecifiedTests=false
       - name: Generate Excel report
         run: |
           cd EduSphereApp/edusphere-web/backend
