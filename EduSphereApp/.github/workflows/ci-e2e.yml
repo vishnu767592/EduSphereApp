@@ -2,7 +2,8 @@ name: E2E Tests (300 cases)
 
 on:
   push:
-    branches: [ main, develop, 'fix/*' ]
+    branches: [ main, develop, 'fix/*', 'add-testing-workflows' ]
+  workflow_dispatch:
 
 jobs:
   e2e-tests:
@@ -16,11 +17,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Install backend dependencies
-        run: mvn -B clean install -DskipTests
-      - name: Compile reporting utility
         run: |
-          javac -cp "$(mvn -q -Dexec.executable=echo -Dexec.args='%classpath' --non-recursive exec:classpath)" reporting/GenerateReport.java -d reporting/classes
-          jar cf reporting/GenerateReport.jar -C reporting/classes .
+          cd edusphere-web/backend
+          mvn -B clean install -DskipTests
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -34,10 +33,8 @@ jobs:
           npx cypress run --reporter junit --reporter-options "mochaFile=cypress-results/results-[hash].xml" || true
       - name: Generate Excel report
         run: |
-          java -cp reporting/GenerateReport.jar com.edusphere.reporting.GenerateReport \
-            --e2e-reports edusphere-web/frontend/cypress-results \
-            --output e2e-report-${{ github.run_id }}.xlsx \
-            --min-passed 300
+          cd edusphere-web/backend
+          mvn exec:java -Dexec.mainClass="com.edusphere.reporting.GenerateReport" -Dexec.classpathScope=test -Dexec.args="--e2e-reports ../frontend/cypress-results --output ../../e2e-report-${{ github.run_id }}.xlsx --min-passed 300"
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:

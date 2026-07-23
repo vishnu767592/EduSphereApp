@@ -3,6 +3,7 @@ name: Selenium Tests (300 cases)
 on:
   push:
     branches: [ main, develop, 'fix/*', 'add-testing-workflows' ]
+  workflow_dispatch:
 
 jobs:
   selenium-tests:
