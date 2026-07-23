@@ -1,0 +1,36 @@
+name: Selenium Tests (300 cases)
+
+on:
+  push:
+    branches: [ main, develop, 'fix/*' ]
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Install backend dependencies
+        run: mvn -B clean install -DskipTests
+      - name: Compile reporting utility
+        run: |
+          javac -cp "$(mvn -q -Dexec.executable=echo -Dexec.args='%classpath' --non-recursive exec:classpath)" reporting/GenerateReport.java -d reporting/classes
+          jar cf reporting/GenerateReport.jar -C reporting/classes .
+      - name: Run Selenium tests
+        run: mvn -B test -Dtest=selenium.*
+      - name: Generate Excel report
+        run: |
+          java -cp reporting/GenerateReport.jar com.edusphere.reporting.GenerateReport \
+            --selenium-reports target/surefire-reports \
+            --output selenium-report-${{ github.run_id }}.xlsx \
+            --min-passed 300
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-test-report
+          path: selenium-report-${{ github.run_id }}.xlsx
