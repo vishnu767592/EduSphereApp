@@ -18,16 +18,16 @@ jobs:
           cache: maven
       - name: Install backend dependencies
         run: |
-          cd edusphere-web/backend
+          cd EduSphereApp/edusphere-web/backend
           mvn -B clean install -DskipTests
       - name: Run Appium Android tests
         run: |
-          cd edusphere-web/backend
+          cd EduSphereApp/edusphere-web/backend
           mvn -B test -Dtest=appium.*
       - name: Generate Excel report
         run: |
-          cd edusphere-web/backend
-          mvn exec:java -Dexec.mainClass="com.edusphere.reporting.GenerateReport" -Dexec.classpathScope=test -Dexec.args="--appium-reports target/surefire-reports --output ../../appium-report-${{ github.run_id }}.xlsx --min-passed 300"
+          cd EduSphereApp/edusphere-web/backend
+          mvn exec:java -Dexec.mainClass="com.edusphere.reporting.GenerateReport" -Dexec.classpathScope=test -Dexec.args="--appium-reports target/surefire-reports --output ../../../appium-report-${{ github.run_id }}.xlsx --min-passed 300"
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
