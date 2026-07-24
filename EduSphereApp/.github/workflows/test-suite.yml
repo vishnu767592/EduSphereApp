@@ -1,0 +1,49 @@
+name: EduSphere Automated Test Suite & Excel Report
+
+on:
+  push:
+    branches: [ main, master, develop, "**" ]
+  pull_request:
+    branches: [ main, master, develop, "**" ]
+
+jobs:
+  test-and-generate-report:
+    name: Run Appium, Selenium, Field Validation, Vulnerability, & Load Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Report Generation Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas openpyxl
+
+      - name: Run Backend Test Suites (Appium, Selenium, Field Validation, Vulnerability, Load Tests)
+        run: |
+          mvn test -f edusphere-web/backend/pom.xml
+
+      - name: Generate Comprehensive Excel Test Report (1,500 Test Cases)
+        run: |
+          python testing/generate_report.py
+
+      - name: Upload Excel Test Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EduSphere_Automation_Test_Report_Excel
+          path: testing/reports/EduSphere_Automation_Test_Report.xlsx
+          retention-days: 30
+          if-no-files-found: error
